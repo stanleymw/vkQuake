@@ -657,13 +657,6 @@ void SCR_DrawFPS (cb_context_t *cbx)
 // Draw Velocity - stanleymw
 void SCR_DrawVelocity (cb_context_t *cbx)
 {
-	// extern cvar_t sv_maxvelocity;
-	// static double oldtime = 0;
-	// static double lastfps = 0;
-	// static int	  oldframecount = 0;
-	// double		  elapsed_time;
-	// int			  frames;
-
 	if (scr_showspeed.value && scr_viewsize.value < 130)
 	{
 		char st[16];
