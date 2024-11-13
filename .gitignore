@@ -35,3 +35,5 @@ build/
 history.txt
 .vscode/settings.json
 helgrind.log
+.cache
+id1

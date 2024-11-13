@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // screen.c -- master for refresh, status bar, console, chat, notify, etc
 
+#include "Quake/cvar.h"
 #include "quakedef.h"
 
 #include "cfgfile.h"
@@ -88,6 +89,7 @@ cvar_t scr_conwidth = {"scr_conwidth", "0", CVAR_ARCHIVE};
 cvar_t scr_conscale = {"scr_conscale", "1", CVAR_ARCHIVE};
 cvar_t scr_crosshairscale = {"scr_crosshairscale", "1", CVAR_ARCHIVE};
 cvar_t scr_showfps = {"scr_showfps", "0", CVAR_ARCHIVE};
+cvar_t scr_showspeed = {"scr_showspeed", "0", CVAR_ARCHIVE};
 cvar_t scr_clock = {"scr_clock", "0", CVAR_NONE};
 cvar_t scr_autoclock = {"scr_autoclock", "1", CVAR_ARCHIVE};
 cvar_t scr_usekfont = {"scr_usekfont", "0", CVAR_NONE}; // 2021 re-release
@@ -549,6 +551,7 @@ void SCR_Init (void)
 	Cvar_RegisterVariable (&scr_conscale);
 	Cvar_RegisterVariable (&scr_crosshairscale);
 	Cvar_RegisterVariable (&scr_showfps);
+	Cvar_RegisterVariable (&scr_showspeed);
 	Cvar_RegisterVariable (&scr_clock);
 	Cvar_RegisterVariable (&scr_autoclock);
 	// johnfitz
@@ -647,6 +650,28 @@ void SCR_DrawFPS (cb_context_t *cbx)
 		x = 320 - (strlen (st) << 3);
 		y = 200 - 8;
 		GL_SetCanvas (cbx, CANVAS_BOTTOMRIGHT);
+		Draw_String (cbx, x, y, st);
+	}
+}
+
+// Draw Velocity - stanleymw
+void SCR_DrawVelocity (cb_context_t *cbx)
+{
+	// extern cvar_t sv_maxvelocity;
+	// static double oldtime = 0;
+	// static double lastfps = 0;
+	// static int	  oldframecount = 0;
+	// double		  elapsed_time;
+	// int			  frames;
+
+	if (scr_showspeed.value && scr_viewsize.value < 130)
+	{
+		char st[16];
+		int	 x, y;
+		q_snprintf (st, sizeof (st), "%4.0f u/s", VectorLength(cl.velocity));
+		x = 32 - (strlen (st) << 3);
+		y = 16;
+		GL_SetCanvas (cbx, CANVAS_CROSSHAIR);
 		Draw_String (cbx, x, y, st);
 	}
 }
@@ -1158,6 +1183,7 @@ static void SCR_DrawGUI (void *unused)
 		Sbar_Draw (cbx);
 		SCR_DrawDevStats (cbx); // johnfitz
 		SCR_DrawFPS (cbx);		// johnfitz
+		SCR_DrawVelocity (cbx);		// stanleymw
 		SCR_DrawClock (cbx);	// johnfitz
 		SCR_DrawConsole (cbx);
 		M_Draw (cbx);
