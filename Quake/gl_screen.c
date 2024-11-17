@@ -661,7 +661,9 @@ void SCR_DrawVelocity (cb_context_t *cbx)
 	{
 		char st[16];
 		int	 x, y;
-		q_snprintf (st, sizeof (st), "%4.0f u/s", VectorLength(cl.velocity));
+		q_snprintf (st, sizeof (st), "%4.0f u/s", VectorLength(
+			(vec3_t){cl.velocity[0], cl.velocity[1], 0}
+		));
 		x = 32 - (strlen (st) << 3);
 		y = 16;
 		GL_SetCanvas (cbx, CANVAS_CROSSHAIR);
