@@ -67,7 +67,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define DIST_EPSILON (0.03125) // 1/32 epsilon to keep floating point happy (moved from world.c)
 
-#define MAX_PHYSICS_FREQ (71.9990) // Physics beyond 72Hz is broken, use a slightly lower value to overcome some bugs
+#define MAX_PHYSICS_FREQ (72.0) // don't modify! Has to be 72.0
+
+#define HOST_NETITERVAL_FREQ (71.9990) // Physics beyond 72Hz is broken, use a slightly lower value for host_netinterval to overcome some bugs
 
 #define MAX_MSGLEN	 64000 // max length of a reliable message //ericw -- was 32000
 #define MAX_DATAGRAM 64000 // max length of unreliable message //johnfitz -- was 1024
@@ -90,8 +92,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // ents past 8192 can't play sounds in the standard protocol
 #define MAX_LIGHTSTYLES	  64
-#define MAX_MODELS		  4096 // johnfitz -- was 256
-#define MAX_SOUNDS		  2048 // johnfitz -- was 256
+#define MAX_MODELS		  8192 // johnfitz -- was 256
+#define MAX_SOUNDS		  4096 // johnfitz -- was 256
 #define MAX_PARTICLETYPES 2048
 
 #define SAVEGAME_COMMENT_LENGTH 39

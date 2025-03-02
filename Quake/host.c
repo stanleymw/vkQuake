@@ -59,7 +59,7 @@ jmp_buf host_abortserver;
 jmp_buf screen_error;
 
 byte  *host_colormap;
-float  host_netinterval = 1.0 / MAX_PHYSICS_FREQ;
+float  host_netinterval = 1.0 / HOST_NETITERVAL_FREQ;
 cvar_t host_framerate = {"host_framerate", "0", CVAR_NONE}; // set for slow motion
 cvar_t host_speeds = {"host_speeds", "0", CVAR_NONE};		// set for running times
 cvar_t host_maxfps = {"host_maxfps", "200", CVAR_ARCHIVE};	// johnfitz
@@ -67,7 +67,7 @@ cvar_t host_maxfps = {"host_maxfps", "200", CVAR_ARCHIVE};	// johnfitz
 cvar_t host_phys_max_ticrate = {"host_phys_max_ticrate", "0", CVAR_NONE}; // vso = [0 = disabled; MAX_PHYSICS_FREQ]
 
 cvar_t host_timescale = {"host_timescale", "0", CVAR_NONE}; // johnfitz
-cvar_t max_edicts = {"max_edicts", "8192", CVAR_NONE};		// johnfitz //ericw -- changed from 2048 to 8192, removed CVAR_ARCHIVE
+cvar_t max_edicts = {"max_edicts", "32000", CVAR_NONE};		// vso -- changed from 8192 to 32000 = MAX_EDICTS, because there is no performance impact to do so
 cvar_t cl_nocsqc = {"cl_nocsqc", "0", CVAR_NONE};			// spike -- blocks the loading of any csqc modules
 
 cvar_t sys_ticrate = {"sys_ticrate", "0.025", CVAR_NONE}; // dedicated server
@@ -135,7 +135,7 @@ static void Max_Fps_f (cvar_t *var)
 	{
 		if (!host_netinterval)
 			Con_Printf ("Using renderer/network isolation.\n");
-		host_netinterval = 1.0 / MAX_PHYSICS_FREQ;
+		host_netinterval = 1.0 / HOST_NETITERVAL_FREQ;
 	}
 	else
 	{
@@ -922,7 +922,22 @@ void _Host_Frame (double time)
 		double realframetime = host_frametime;
 		if (host_netinterval && isDedicated == 0)
 		{
-			host_frametime = sv.active ? (listening ? q_min (accumtime, 0.017) : host_netinterval) : accumtime;
+			if (sv.active)
+			{
+				if (listening)
+				{
+					host_frametime = q_min (accumtime, 0.017);
+				}
+				else
+				{
+					host_frametime = q_max (accumtime, host_netinterval);
+				}
+			}
+			else
+			{
+				host_frametime = accumtime;
+			}
+
 			accumtime -= host_frametime;
 			if (host_timescale.value > 0)
 				host_frametime *= host_timescale.value;

@@ -20,6 +20,9 @@ Improvements over QuakeSpasm include:
 
 ## Installation
 
+Windows and Linux binaries can be found in [Releases](https://github.com/Novum/vkQuake/releases).
+MacOS (both Apple Silicon and 64-bit Intel) binaries are at [Mac Source Ports](https://www.macsourceports.com/game/quake).
+
 ### Windows
 It is recommended to use the installer on Windows. This sets up start menu entries for the original and remastered Quake versions. Save data and config files will be written to the user folder (`%APPDATA\vkQuake`) instead of the Quake data folder.
 
@@ -102,12 +105,17 @@ To compile vkQuake, first install the build dependencies:
 
 Ubuntu:
 ~~~
-apt-get install git meson gcc glslang-tools spirv-tools libsdl2-dev libvulkan-dev libvorbis-dev libmad0-dev libx11-xcb-dev
+apt-get install git meson gcc glslang-tools spirv-tools libsdl2-dev libvulkan-dev libvorbis-dev libmpg123-dev libx11-xcb-dev
 ~~~
 
 Arch Linux:
 ~~~
-pacman -S git meson flac glibc libgl libmad libvorbis libx11 sdl2 vulkan-headers glslang spirv-tools
+pacman -S git meson flac glibc libgl mpg123 libvorbis libx11 sdl2 vulkan-headers glslang spirv-tools
+~~~
+
+Fedora:
+~~~
+dnf install git meson gcc glslang spirv-tools vulkan-loader-devel SDL2-devel mpg123-devel libvorbis-devel flac-devel opusfile-devel
 ~~~
 
 Then clone the vkQuake repo:
@@ -139,7 +147,7 @@ meson build && ninja -C build
 To compile vkQuake, first install the build dependencies with Homebrew:
 
 ~~~
-brew install molten-vk vulkan-headers glslang spirv-tools sdl2 libvorbis flac opus opusfile flac mad meson pkgconfig
+brew install molten-vk vulkan-headers glslang spirv-tools sdl2 libvorbis flac opus opusfile flac mpg123 meson pkgconfig
 ~~~
 
 Then clone the vkQuake repo:
