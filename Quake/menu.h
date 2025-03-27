@@ -102,4 +102,15 @@ qboolean M_HandleScrollBarKeys (const int key, int *cursor, int *first_drawn, co
 #define MENU_SCROLLBAR_X 312
 #define MAX_MENU_LINES	 14
 
+typedef struct crosshair_s
+{
+	char  crosshair_char;
+	float viewport_x_offset;
+	float viewport_y_offset;
+	int	  menu_x_offset;
+	int	  menu_y_offset;
+} crosshair_t;
+
+crosshair_t M_GetCrosshairDef (float crosshair_def_value);
+
 #endif /* _QUAKE_MENU_H */

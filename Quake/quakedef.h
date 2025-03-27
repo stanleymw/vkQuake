@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "quakever.h"
 
-// quakedef.h -- primary header for client
+// quakedef.h -- basic system-wide defines and general includer
 
 #define QUAKE_GAME // as opposed to utilities
 
@@ -44,9 +44,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define BSP29_VALVE // enable Half-Life map support
 
 #include "q_stdinc.h"
-
-// !!! if this is changed, it must be changed in d_ifacea.h too !!!
-#define CACHE_SIZE 32 // used to align key data structures
 
 #define Q_UNUSED(x) (x = x) // for pesky compiler / lint warnings
 
@@ -93,12 +90,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // ents past 8192 can't play sounds in the standard protocol
 #define MAX_LIGHTSTYLES	  64
 #define MAX_MODELS		  8192 // johnfitz -- was 256
-#define MAX_SOUNDS		  4096 // johnfitz -- was 256
+#define MAX_SOUNDS		  2048 // johnfitz -- was 256
 #define MAX_PARTICLETYPES 2048
 
 #define SAVEGAME_COMMENT_LENGTH 39
 
 #define MAX_STYLESTRING 64
+
+#define CMDLINE_LENGTH 256
 
 //
 // stats are integers communicated to the client by the server

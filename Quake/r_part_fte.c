@@ -156,8 +156,6 @@ typedef struct trailstate_s
 entity_t *CL_EntityNum (int num);
 #define BEF_LINES 1
 
-extern int PClassic_PointFile (int c, vec3_t point);
-
 #define PART_VALID(part) ((part) >= 0 && (part) < numparticletypes)
 
 static int pe_default = P_INVALID;

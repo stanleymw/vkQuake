@@ -1020,6 +1020,10 @@ static void PF_sprintf_internal (const char *s, int firstarg, char *outbuf, int 
 	static int	 dummyivec[3] = {0, 0, 0};
 	static float dummyvec[3] = {0, 0, 0};
 
+	// temporary for PF_sprintf_internal as global to prevent big stack usage
+	// fine because only called from the main loop (PR_ExecuteProgram)
+	static char quotedbuf[65536] = {0};
+
 #define PRINTF_ALTERNATE	 1
 #define PRINTF_ZEROPAD		 2
 #define PRINTF_LEFT			 4
@@ -1384,7 +1388,6 @@ static void PF_sprintf_internal (const char *s, int firstarg, char *outbuf, int 
 					const char *quotedarg = GETARG_STRING (thisarg);
 
 					// try and escape it... hopefully it won't get truncated by precision limits...
-					char	 quotedbuf[65536];
 					size_t	 l;
 					qboolean warn = false;
 					quotedbuf[0] = '\\';

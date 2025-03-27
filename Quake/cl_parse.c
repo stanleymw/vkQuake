@@ -87,7 +87,7 @@ const char *svc_strings[128] = {
 };
 #define NUM_SVC_STRINGS countof (svc_strings)
 
-qboolean warn_about_nehahra_protocol; // johnfitz
+static qboolean warn_about_nehahra_protocol; // johnfitz
 
 extern vec3_t v_punchangles[2];		  // johnfitz
 extern double v_punchangles_times[2]; // spike -- don't assume 10fps...
@@ -854,20 +854,19 @@ static void CL_KeepaliveMessage (void)
 CL_ParseServerInfo
 ==================
 */
-
-// temporaries as globals to prevent excessive stack usage,
-// this is fine because this is called only from the main loop.
-char gamedir[1024];
-char protname[64];
-char model_precache[MAX_MODELS][MAX_QPATH];
-char sound_precache[MAX_SOUNDS][MAX_QPATH];
-
 static void CL_ParseServerInfo (void)
 {
 	const char *str;
 	int			i;
 	qboolean	gamedirswitchwarning = false;
 	int			nummodels, numsounds;
+
+	// temporaries as globals to prevent excessive stack usage,
+	// this is fine because this is called only from the main loop.
+	static char gamedir[1024] = {0};
+	static char protname[64] = {0};
+	static char model_precache[MAX_MODELS][MAX_QPATH] = {0};
+	static char sound_precache[MAX_SOUNDS][MAX_QPATH] = {0};
 
 	Con_DPrintf ("Serverinfo packet received.\n");
 
